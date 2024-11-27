@@ -48,22 +48,7 @@ def index(request):
     image_url = None
     predicted_label = None
 
-    if request.method == 'POST':
-        form = ImageUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            image = form.cleaned_data['image']
-            image_bytes = image.file.read()
-            encoded_img = base64.b64encode(image_bytes).decode('ascii')
-            image_url = 'data:%s;base64,%s' % ('image/jpeg', encoded_img)
-
-            try:
-                predicted_label = get_prediction(image_bytes)
-            except Exception as e:
-                print(f"Error during prediction: {e}")
-                predicted_label = "Error during prediction"
-
-    else:
-        form = ImageUploadForm()
+    
 
     context = {
         'form': form,
